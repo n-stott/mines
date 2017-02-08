@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Boid.h"
 #include <GL/glut.h>
-#include "ttime.h"
 
 //BOID
 Boid::Boid() {

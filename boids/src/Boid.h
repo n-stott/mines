@@ -2,6 +2,7 @@
 #define BOIDS_H
 
 #include <Eigen/Dense>
+#include "ttime.h"
 
 class Boid {
 public:

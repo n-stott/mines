@@ -5,6 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include <vector>
+#include "Boid.h"
 
 using namespace std;
 
@@ -18,6 +19,8 @@ float t = 0;
 float last_t = 0;
 float dt = 0;
 
+static Boid b;
+
 void init(void) 
 {
 	glEnable(GL_DEPTH_TEST);
@@ -26,21 +29,21 @@ void init(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
+
+        b = Boid();
 }
 
 void display() 
 {
+        //Camera setup
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(0, -1, 1,0, 0, 0, 0.0, 0.0, 1.0);
 
         //Display functions
-        glPointSize(20.0);
-        glBegin(GL_POINTS);
-        glColor3f(1.0,1.0,0.0);
-	glVertex3f(0.0,0.0,0.0);
-        glEnd();
+        b.draw();
+
 	glutSwapBuffers();
 }
 
