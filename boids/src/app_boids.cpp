@@ -30,35 +30,24 @@ void init(void)
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
-        b = Boid();
+	b = Boid();
 }
+
 
 void display() 
 {
         //Camera setup
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(0, -1, 1,0, 0, 0, 0.0, 0.0, 1.0);
 
-        //Display functions
-        b.draw();
+    //Display functions
+	b.draw();
 
 	glutSwapBuffers();
 }
 
-void timer(int v) 
-{
-	glutPostRedisplay();
-	glutTimerFunc(1000 / FPS, timer, 0);
-}
-
-void systemEvolution()
-{
-	last_t = t;
-	t = (float)glutGet(GLUT_ELAPSED_TIME);
-	dt = (t - last_t)*0.001;
-}
 
 void reshape(int w, int h) 
 {
@@ -70,9 +59,25 @@ void reshape(int w, int h)
 	glLoadIdentity();
 }
 
+
 void processKeys(unsigned char key, int x, int y) 
 {
 	
+}
+
+
+void systemEvolution()
+{
+	last_t = t;
+	t = (float)glutGet(GLUT_ELAPSED_TIME);
+	dt = (t - last_t)*0.001;
+}
+
+
+void timer(int v) 
+{
+	glutPostRedisplay();
+	glutTimerFunc(1000 / FPS, timer, 0);
 }
 
 
@@ -89,13 +94,14 @@ int main(int argc, char** argv)
 
 	init();
 	glutDisplayFunc(display);
-	glutIdleFunc(systemEvolution);
 	glutReshapeFunc(reshape);
-	glutKeyboardFunc(processKeys);
-	glutTimerFunc(1000 / FPS, timer, 0);
-
 	//glutMouseFunc();
+	glutKeyboardFunc(processKeys);
 	//glutMotionFunc();
+
+
+	glutIdleFunc(systemEvolution);
+	glutTimerFunc(1000 / FPS, timer, 0);
 
 	glutMainLoop();
 	
