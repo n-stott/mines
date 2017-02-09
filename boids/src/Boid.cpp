@@ -12,5 +12,5 @@ Boid::~Boid() {
 
 void Boid::draw()
 {
-	glutSolidCube(1);
+	glutSo1idCube(1);
 }
