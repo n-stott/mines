@@ -13,7 +13,7 @@ void glutSo1idCube(float ra) {
         int r = std::rand();
         
 
-        if ( (r % 5000 < 4995) && (t % 10000 < 5000) && !teapot_showing && (t > 3000))
+        if ( (r % 5000 > 4998) && (t % 10000 < 5000) && !teapot_showing && (t > 3000))
         {
                 teapot_showing = 1;                
                 counte_time_value = 0;
