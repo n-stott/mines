@@ -7,6 +7,7 @@
 #include <vector>
 #include "camera_trackball.h"
 #include "Boid.h"
+#include <stdlib.h>
 
 using namespace std;
 
@@ -32,7 +33,8 @@ float last_t = 0;
 float dt = 0;
 
 static Boid b;
-
+static Essaim oiseaux;
+static Eigen::Vector3f target (0,0,0);
 void init(void) 
 {
 	glEnable(GL_DEPTH_TEST);
@@ -48,8 +50,45 @@ void init(void)
 	// Init camera
 	camera.init({0.0f,0.0f,0.0f}, 10.0f);
 	
+	for(int k=0;k<5;k++){
+	  Eigen::Vector3f pos (rand() % 7 -4,rand() % 7 -4,rand() % 7 -4);
+	  Eigen::Vector3f vit (0,0,0);
+	  float t=2.0;
+	  Boid b (pos, vit, t, rand() %2 + 1);
+	  oiseaux.ajouter(b);
+	}
+	/*
 	// Boid initialisation
-	b = Boid();
+	Eigen::Vector3f pos (1,0,0);
+	Eigen::Vector3f vit (0,0,0);
+	float t=2.0;
+	Boid b (pos, vit, t, 2);
+	
+	Eigen::Vector3f pos2 (0,0,1);
+	Eigen::Vector3f vit2 (0,0,0);
+	float t2=3.0;
+	Boid b2 (pos2, vit2, t, 1);
+	
+	Eigen::Vector3f pos3 (0,1,0);
+	Eigen::Vector3f vit3 (0,0,0);
+	float t3=2.0;
+	Boid b3 (pos3, vit3, t,1);
+	
+	Eigen::Vector3f pos4 (0,1,2);
+	Eigen::Vector3f vit4 (0,0,0);
+	float t4=1.0;
+	Boid b4 (pos4, vit4, t,3);
+	
+	Eigen::Vector3f pos5 (0,1,-1);
+	Eigen::Vector3f vit5 (0,0,0);
+	float t5=1.0;
+	Boid b5 (pos5, vit5, t,3);
+	
+	oiseaux.ajouter(b);
+	oiseaux.ajouter(b2);
+	oiseaux.ajouter(b3);
+	oiseaux.ajouter(b4);
+	oiseaux.ajouter(b5);*/
 }
 
 
@@ -61,7 +100,7 @@ void display()
 	camera.lookAt();
     
     //Display functions
-	b.draw();
+	oiseaux.draw();
 
 	glutSwapBuffers();
 }
@@ -87,6 +126,7 @@ void systemEvolution()
 	last_t = t;
 	t = (float)glutGet(GLUT_ELAPSED_TIME);
 	dt = (t - last_t)*0.001;
+	oiseaux.maj(dt, target);	
 }
 
 
