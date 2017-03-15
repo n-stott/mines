@@ -7,6 +7,8 @@
 #include <vector>
 #include "camera_trackball.h"
 #include "Boid.h"
+#include "Flock.h"
+#include "Xwing.h"
 
 using namespace std;
 
@@ -31,7 +33,8 @@ float t = 0;
 float last_t = 0;
 float dt = 0;
 
-static Boid b;
+static Flock<Xwing> reb;
+static Flock<Tie> emp;
 
 void init(void) 
 {
@@ -49,7 +52,9 @@ void init(void)
 	camera.init({0.0f,0.0f,0.0f}, 10.0f);
 	
 	// Boid initialisation
-	b = Boid();
+	reb = Flock<Xwing>(30,4);
+	emp = Flock<Tie>(0,5);
+	
 }
 
 
@@ -61,7 +66,18 @@ void display()
 	camera.lookAt();
     
     //Display functions
-	b.draw();
+	reb.draw();
+	emp.draw();
+
+	//draw ground
+	glPushMatrix();
+	glBegin(GL_QUADS);
+	glVertex3f(-5,-5,-5);
+	glVertex3f(5,-5,-5);
+	glVertex3f(5,5,-5);
+	glVertex3f(-5,5,-5);
+	glEnd();
+	glPopMatrix();
 
 	glutSwapBuffers();
 }
@@ -87,6 +103,9 @@ void systemEvolution()
 	last_t = t;
 	t = (float)glutGet(GLUT_ELAPSED_TIME);
 	dt = (t - last_t)*0.001;
+
+	reb.move(dt,emp);
+	emp.move(dt,reb);
 }
 
 
@@ -121,7 +140,7 @@ void timer(int v) {
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) 
 {
-	
+
 	glutInit(&argc, argv);
 	glutInitWindowSize(window_w, window_h);
 	glutInitWindowPosition(WINDOW_X, WINDOW_Y);
@@ -142,6 +161,6 @@ int main(int argc, char** argv)
 	glutTimerFunc(1000 / FPS, timer, 0);
 
 	glutMainLoop();
-	
+
 	return 0;
 }
