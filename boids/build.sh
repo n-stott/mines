@@ -1,6 +1,7 @@
 SRC_DIR="../src"
 THIRDPARTY_DIR="../third-party"
 
+rm -r _build
 mkdir _build
 cd _build
 
