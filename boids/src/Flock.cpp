@@ -75,7 +75,8 @@ Eigen::Vector3f Flock<T>::target(T const &boid, Flock<T2> &e) {
 	float w = 1000;
 	for(T2& b : e.boids) {
 		float sd = boid.d(b);
-		if (sd < w && !boid.prey) { w = sd; v = b.p - boid.p; }
+		if (sd < w && !boid.prey && boid.sees(b) && sd > 2) {
+		 w = sd; v = b.p - boid.p; }
 	}
 	v = boid.steer(v);
 	return v;
@@ -105,20 +106,20 @@ void Flock<T>::move(float dt, Flock<T2> &e) {
 		Eigen::Vector3f aa = alignment(b);
 		Eigen::Vector3f at = target(b, e);
 		Eigen::Vector3f ad = dodge(b, e);
-		Eigen::Vector3f ap = 0*containment(b);
+		Eigen::Vector3f ap = containment(b);
 
 		//std::cout << ac.norm() << std::endl;
 		//std::cout << ac << "  " << as << "  " << aa << std::endl;
 
 		Eigen::Vector3f a = 
 		ac+as+aa+ap
-		//+at
-		//+ad
+		+at
+		+ad
 		;
 
 		b.move(a,dt);
 
-		b.contain(5);
+		b.contain(container);
 	}
 }
 

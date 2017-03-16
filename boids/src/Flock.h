@@ -19,6 +19,7 @@ public:
 	Flock(int n, float b);
 	
 	std::vector<T> boids;
+	float container = 8;
 
 	template<typename T2>
 	operator Flock<T2>();

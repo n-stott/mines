@@ -13,8 +13,8 @@ Boid::Boid(Eigen::Vector3f pi, Eigen::Vector3f vi, Eigen::Vector3f ai) : p(pi), 
 }
 
 Boid::Boid(float i, float e) {
-	p = Eigen::Vector3f(rand(i,e),rand(i,e),0);
-	v = 0.5*Eigen::Vector3f(rand(i,e),rand(i,e),0);
+	p = Eigen::Vector3f(rand(i,e),rand(i,e),rand(i,e));
+	v = 0.2*Eigen::Vector3f(rand(i,e),rand(i,e),rand(i,e));
 	a = Eigen::Vector3f(0,0,0);
 	prey = false;
 }
@@ -40,9 +40,16 @@ template bool Boid::sees<Tie>(Tie const &) const;
 template bool Boid::sees<Xwing>(Xwing const &) const;
 
 Eigen::Vector3f Boid::steer(Eigen::Vector3f vc) const {
-	Eigen::Vector3f w = vc.normalized();
-	w = max_speed*w - v;
-	return w;
+	float n = vc.norm();
+	if (n > 0.01) {
+		Eigen::Vector3f w = vc.normalized();
+		w = max_speed*w - v;
+		return w;
+	}
+	else {
+		return Eigen::Vector3f::Zero();
+	}
+
 }
 
 

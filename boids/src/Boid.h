@@ -21,8 +21,8 @@ public:
 
 	bool prey;
 
-	float r_sep = 1;
-	float r_align = 3;
+	float r_sep = 2;
+	float r_align = 4;
 	float r_cohe = 10;
 
 	float max_force = 3;

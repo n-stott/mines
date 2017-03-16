@@ -33,6 +33,8 @@ float t = 0;
 float last_t = 0;
 float dt = 0;
 
+bool paus = false;
+
 static Flock<Xwing> reb;
 static Flock<Tie> emp;
 
@@ -52,8 +54,8 @@ void init(void)
 	camera.init({0.0f,0.0f,0.0f}, 10.0f);
 	
 	// Boid initialisation
-	reb = Flock<Xwing>(30,4);
-	emp = Flock<Tie>(0,5);
+	reb = Flock<Xwing>(5,8);
+	emp = Flock<Tie>(5,8);
 	
 }
 
@@ -61,6 +63,8 @@ void init(void)
 void display() 
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    float bg = 0.5;
+    glClearColor(bg,bg,bg,1);
 	
 	//Camera setup
 	camera.lookAt();
@@ -70,14 +74,14 @@ void display()
 	emp.draw();
 
 	//draw ground
-	glPushMatrix();
-	glBegin(GL_QUADS);
-	glVertex3f(-5,-5,-5);
-	glVertex3f(5,-5,-5);
-	glVertex3f(5,5,-5);
-	glVertex3f(-5,5,-5);
-	glEnd();
-	glPopMatrix();
+	// glPushMatrix();
+	// glBegin(GL_QUADS);
+	// glVertex3f(-5,-5,-5);
+	// glVertex3f(5,-5,-5);
+	// glVertex3f(5,5,-5);
+	// glVertex3f(-5,5,-5);
+	// glEnd();
+	// glPopMatrix();
 
 	glutSwapBuffers();
 }
@@ -94,18 +98,33 @@ void reshape(int w, int h)
 
 void processKeys(unsigned char key, int x, int y) 
 {
-	
+	switch (key){
+	case 27: exit(0); break;
+	case ' ':
+		paus = !paus;
+		t = (float)glutGet(GLUT_ELAPSED_TIME);
+		last_t = t;
+		std::cout << emp.boids.size() << std::endl;
+	 	break;
+	case 'n':
+		Xwing::incr_style();
+		Tie::incr_style();
+		break;
+	}
+
 }
 
 
 void systemEvolution()
 {
-	last_t = t;
-	t = (float)glutGet(GLUT_ELAPSED_TIME);
-	dt = (t - last_t)*0.001;
-
-	reb.move(dt,emp);
-	emp.move(dt,reb);
+	if (!paus) {
+		last_t = t;
+		t = (float)glutGet(GLUT_ELAPSED_TIME);
+		dt = (t - last_t)*0.001;
+		reb.move(dt,emp);
+		emp.move(dt,reb);
+		// std::cout << emp.boids[0].p[2] << std::endl;
+	}
 }
 
 

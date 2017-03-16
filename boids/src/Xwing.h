@@ -19,7 +19,9 @@ public:
 	
 	void draw();
 	
-	
+	static int style;
+	static void incr_style();	
 };
+
 
 #endif
