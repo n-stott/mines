@@ -5,6 +5,7 @@
 #include <Eigen/Dense>  // inclue toute la librairie Eigen
 
 #include "camera_trackball.h"
+#include "draw.h"
 
 
 using namespace std;
@@ -46,15 +47,7 @@ void display() {
   camera.lookAt();
 
   //Display functions
-  glLineWidth(2.0);
-  glBegin(GL_LINE_STRIP);
-  glColor3f(1,1,1);
-  glVertex3f(-1,0,-1);
-  glVertex3f(-1,0,1);
-  glVertex3f(0,0,0);
-  glVertex3f(1,0,1);
-  glVertex3f(1,0,-1);
-  glEnd();
+  draw();
 
 	glutSwapBuffers();
 }
