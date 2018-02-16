@@ -55,4 +55,16 @@ void drawTie() {
     	gluCylinder(obj, 0.2, 0.2, 0.02, 10, 5);
 	glPopMatrix();
 	
+	glPushMatrix();
+		glTranslatef(0,0.15,0);
+		glRotatef(90,1,0,0);
+		glScalef(0.8,1,1);
+    	gluDisk(obj, 0, 0.2, 10, 5);
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0,-0.15,0);
+		glRotatef(90,1,0,0);
+		glScalef(0.8,1,1);
+    	gluDisk(obj, 0, 0.2,  10, 5);
+	glPopMatrix();
 }

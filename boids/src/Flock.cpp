@@ -31,8 +31,8 @@ Eigen::Vector3f Flock<T>::separation(T const &boid) {
 	int count = 0;
 	for(T& b : boids) {
 		float d = boid.d(b);
-		if (d > 0 && d < boid.r_sep && boid.sees(b)) {
-			v += (boid.p - b.p) / d;
+		if (d > 0 && d < boid.r_sep) {
+			v += 100*(boid.p - b.p) / (d);
 			count++;
 		}
 	}

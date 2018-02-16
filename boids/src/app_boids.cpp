@@ -54,8 +54,8 @@ void init(void)
 	camera.init({0.0f,0.0f,0.0f}, 10.0f);
 	
 	// Boid initialisation
-	reb = Flock<Xwing>(5,8);
-	emp = Flock<Tie>(5,8);
+	reb = Flock<Xwing>(50,3);
+	emp = Flock<Tie>(50,3);
 	
 }
 
@@ -121,6 +121,7 @@ void systemEvolution()
 		last_t = t;
 		t = (float)glutGet(GLUT_ELAPSED_TIME);
 		dt = (t - last_t)*0.001;
+		
 		reb.move(dt,emp);
 		emp.move(dt,reb);
 		// std::cout << emp.boids[0].p[2] << std::endl;

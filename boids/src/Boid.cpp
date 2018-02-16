@@ -13,8 +13,8 @@ Boid::Boid(Eigen::Vector3f pi, Eigen::Vector3f vi, Eigen::Vector3f ai) : p(pi), 
 }
 
 Boid::Boid(float i, float e) {
-	p = Eigen::Vector3f(rand(i,e),rand(i,e),rand(i,e));
-	v = 0.2*Eigen::Vector3f(rand(i,e),rand(i,e),rand(i,e));
+	p = Eigen::Vector3f(rand(i,e),rand(i,e),0);
+	v = 0.2*Eigen::Vector3f(rand(i,e),rand(i,e),0);
 	a = Eigen::Vector3f(0,0,0);
 	prey = false;
 }

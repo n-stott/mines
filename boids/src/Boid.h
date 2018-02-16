@@ -23,7 +23,7 @@ public:
 
 	float r_sep = 2;
 	float r_align = 4;
-	float r_cohe = 10;
+	float r_cohe = 3;
 
 	float max_force = 3;
 	float max_speed = 5;
