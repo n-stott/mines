@@ -6,7 +6,7 @@
 #include <time.h>
 #include <vector>
 #include "camera_trackball.h"
-#include "Boid.h"
+#include "Flock.h"
 
 using namespace std;
 
@@ -31,7 +31,8 @@ float t = 0;
 float last_t = 0;
 float dt = 0;
 
-static Boid b;
+
+static Flock flock;
 
 void init(void) 
 {
@@ -49,7 +50,7 @@ void init(void)
 	camera.init({0.0f,0.0f,0.0f}, 10.0f);
 	
 	// Boid initialisation
-	b = Boid();
+	flock = Flock();
 }
 
 
@@ -61,7 +62,7 @@ void display()
 	camera.lookAt();
     
     //Display functions
-	b.draw();
+	flock.draw();
 
 	glutSwapBuffers();
 }
@@ -87,6 +88,8 @@ void systemEvolution()
 	last_t = t;
 	t = (float)glutGet(GLUT_ELAPSED_TIME);
 	dt = (t - last_t)*0.001;
+
+	flock.move();
 }
 
 
