@@ -1,44 +1,12 @@
-#include <iostream>
-//#include <windows.h>  // For MS Windows
-#include <GL/glut.h>  // GLUT, includes glu.h and gl.h
-#include <Eigen/Dense>  // inclue toute la librairie Eigen
-#include <math.h>
-#include <time.h>
-#include <vector>
-#include "camera_trackball.h"
-#include "demo1.h"
-
-const float FOVY = 60.0f;
-const float NEARCLIP = 0.1f;
-const float FARCLIP = 100.0f;
-const int FPS = 30;
-const int WINDOW_X = 700;
-const int WINDOW_Y = 100;
-// Inputs
-int mouse_x = 0;
-int mouse_y = 0;
-int mouse_buttons[GLUT_NUM_MOUSE_BUTTONS];
-int window_w = 800;
-int window_h = 600;
+#include "main_demo.h"
 // Camera
 CameraTrackball camera;
 
 std::vector<Demo*> demos;
 unsigned int currentDemo = 0;
 
-// Time management
-float t = 0;
-float last_t = 0;
-float dt = 0;
 
-
-void init(void) {
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_NORMALIZE);
-	glShadeModel(GL_SMOOTH);
+void init() {
   
 	// Init inputs
 	for (int i = 0; i<GLUT_NUM_MOUSE_BUTTONS; ++i) {mouse_buttons[i] = GLUT_UP;}
