@@ -25,8 +25,7 @@ void CameraTrackball::lookAt() {
 
   position_ = center_ - r_ * front_;
   
-  glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	// glLoadIdentity();
 	gluLookAt(position_[0], position_[1], position_[2],
 	    center_[0], center_[1], center_[2],
 	    0.0, 0.0, 1.0);

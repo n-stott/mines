@@ -1,9 +1,11 @@
 #include "main_demo.h"
+#include "demo1.h"
 // Camera
 CameraTrackball camera;
 
 std::vector<Demo*> demos;
 unsigned int currentDemo = 0;
+int windowId = 0;
 
 
 void init() {
@@ -23,11 +25,13 @@ void init() {
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
+  glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+    
 	//Camera setup
 	camera.lookAt();
-    
     //Display functions
-    demos[currentDemo]->display();
+    demos[currentDemo]->display(t);
 
 	glutSwapBuffers();
 }
@@ -46,6 +50,7 @@ void processKeys(unsigned char key, int x, int y) {
 	if (key == 'q') exit(0);
 	switch (key) {
 		case 'q': {
+			glutDestroyWindow(windowId);
 			exit(0);
 		}
 	}
@@ -110,7 +115,7 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(WINDOW_X, WINDOW_Y);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 	glViewport(0, 0, window_w, window_h);
-	glutCreateWindow("Test window");
+	windowId = glutCreateWindow("Test window");
 
 	init();
 	glutDisplayFunc(display);

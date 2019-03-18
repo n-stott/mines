@@ -8,17 +8,20 @@ public:
 	Demo() {}
 	Demo(unsigned int nb) : nbStates(nb) {}
 
+	virtual ~Demo() {}
+
 	virtual void init() = 0;
-	virtual void display() = 0;
+	virtual void display(float t) = 0;
+	virtual void lighting() = 0;
 
 	void next() {
 		if (state < nbStates-1) state++;
-		std::cout << state << std::endl;
+		// std::cout << state << std::endl;
 		init();
 	}
 	void prev() {
 		if (state > 0) state--;
-		std::cout << state << std::endl;
+		// std::cout << state << std::endl;
 		init();
 	}
 
