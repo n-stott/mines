@@ -61,7 +61,7 @@ public:
 		glRotatef(-23,1,1,0);
 		for(int i = 0; i < W; ++i) {
 			for(int j = -H/2; j < H/2; ++j) {
-				glBegin(GL_QUADS);
+				glBegin(GL_POINTS);
 				glColor3f(getR(i,j,0), getG(i,j,0), getB(i,j,0));
 				glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
 					glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );

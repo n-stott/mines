@@ -107,30 +107,30 @@ void timer(int v) {
 
 
 /* Main function: GLUT runs as a console application starting at main()  */
-int main(int argc, char** argv) 
-{
+// int main(int argc, char** argv) 
+// {
 	
-	glutInit(&argc, argv);
-	glutInitWindowSize(window_w, window_h);
-	glutInitWindowPosition(WINDOW_X, WINDOW_Y);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
-	glViewport(0, 0, window_w, window_h);
-	windowId = glutCreateWindow("Test window");
+// 	glutInit(&argc, argv);
+// 	glutInitWindowSize(window_w, window_h);
+// 	glutInitWindowPosition(WINDOW_X, WINDOW_Y);
+// 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+// 	glViewport(0, 0, window_w, window_h);
+// 	windowId = glutCreateWindow("Test window");
 
-	init();
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-	glutMouseFunc(mouseButton);
-	glutPassiveMotionFunc(mousePassiveMotion);
-	glutKeyboardFunc(processKeys);
-	glutMotionFunc(mouseMotion);
-	glutSpecialFunc(specialKey);
+// 	init();
+// 	glutDisplayFunc(display);
+// 	glutReshapeFunc(reshape);
+// 	glutMouseFunc(mouseButton);
+// 	glutPassiveMotionFunc(mousePassiveMotion);
+// 	glutKeyboardFunc(processKeys);
+// 	glutMotionFunc(mouseMotion);
+// 	glutSpecialFunc(specialKey);
 
 
-	glutIdleFunc(systemEvolution);
-	glutTimerFunc(1000 / FPS, timer, 0);
+// 	glutIdleFunc(systemEvolution);
+// 	glutTimerFunc(1000 / FPS, timer, 0);
 
-	glutMainLoop();
+// 	glutMainLoop();
 	
-	return 0;
-}
+// 	return 0;
+// }
