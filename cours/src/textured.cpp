@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include "rgbImage.h"
+#include <math.h>
+#define PI 3.14159
+#define W 36.0
+#define H 18.0
 GLfloat xRotated, yRotated, zRotated;
 GLuint   texture[1];         // Storage For One Texture ( NEW )
 /*
@@ -29,11 +33,37 @@ void loadTextureFromFile(char *filename)
    
       glTexImage2D(GL_TEXTURE_2D, 0, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData() );
 
-
-
-
-
 }
+
+void sphere(float t) {
+    glPushMatrix();
+    // glScalef(5.0,5.0,5.0);
+    glRotatef(-50,0,0,1);
+    glRotatef(-23,1,1,0);
+    for(int i = 0; i < W; ++i) {
+      for(int j = -H/2; j < H/2; ++j) {
+        glBegin(GL_QUADS);
+        glTexCoord2f(i/W, 0.5+j/H);
+        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+          i++;
+        glTexCoord2f(i/W, 0.5+j/H);
+        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+          j++;
+        glTexCoord2f(i/W, 0.5+j/H);
+        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+          i--;
+        glTexCoord2f(i/W, 0.5+j/H);
+        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+          j--;
+        glEnd();
+      }
+    }
+    glPopMatrix();
+  }
 
 /*
 * Draw the texture in the OpenGL graphics window
@@ -47,7 +77,8 @@ void drawScene(void)
    glTranslatef(0.0,0.0,-5);
      glRotatef(yRotated, 0, 1, 0);
     glRotatef(zRotated, 0, 0, 1);
-   glutSolidTeapot(1);
+    sphere(1);
+   // glutSolidTeapot(1);
    // glutSolidSphere(1,50,50);
    glFlush();
    glDisable(GL_TEXTURE_2D);
