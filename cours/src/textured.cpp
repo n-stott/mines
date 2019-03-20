@@ -119,21 +119,21 @@ void idleFunc(void)
      zRotated += 0.01;
     drawScene();
 }
-int main(int argc, char** argv)
-{
-   glutInit(&argc, argv);
-   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-   glutInitWindowSize(240, 240);
-   glutInitWindowPosition(100, 100);
-   glutCreateWindow(argv[0]);
+// int main(int argc, char** argv)
+// {
+//    glutInit(&argc, argv);
+//    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+//    glutInitWindowSize(240, 240);
+//    glutInitWindowPosition(100, 100);
+//    glutCreateWindow(argv[0]);
 
-   loadTextureFromFile( filename );
+//    loadTextureFromFile( filename );
    
-   glutDisplayFunc(drawScene);
-   glutReshapeFunc(resizeWindow);
-   glutKeyboardFunc(keyboard);
-     glutIdleFunc(idleFunc);
-   glutMainLoop();
-   return 0;
-}
+//    glutDisplayFunc(drawScene);
+//    glutReshapeFunc(resizeWindow);
+//    glutKeyboardFunc(keyboard);
+//      glutIdleFunc(idleFunc);
+//    glutMainLoop();
+//    return 0;
+// }
 

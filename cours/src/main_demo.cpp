@@ -19,7 +19,7 @@ void init() {
 	for(int i = 0; i < 1; ++i) {
 		demos.push_back(new Demo1());
 	}
-	
+
 }
 
 void display() {
@@ -66,6 +66,14 @@ void specialKey(int key, int x, int y) {
 			demos[currentDemo]->next();
 			break;
 		}
+		case GLUT_KEY_UP: {
+			demos[currentDemo]->snext();
+			break;
+		}
+		case GLUT_KEY_DOWN: {
+			demos[currentDemo]->sprev();
+			break;
+		}
 	}
 }
 
@@ -107,30 +115,30 @@ void timer(int v) {
 
 
 /* Main function: GLUT runs as a console application starting at main()  */
-// int main(int argc, char** argv) 
-// {
+int main(int argc, char** argv) 
+{
 	
-// 	glutInit(&argc, argv);
-// 	glutInitWindowSize(window_w, window_h);
-// 	glutInitWindowPosition(WINDOW_X, WINDOW_Y);
-// 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
-// 	glViewport(0, 0, window_w, window_h);
-// 	windowId = glutCreateWindow("Test window");
+	glutInit(&argc, argv);
+	glutInitWindowSize(window_w, window_h);
+	glutInitWindowPosition(WINDOW_X, WINDOW_Y);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	glViewport(0, 0, window_w, window_h);
+	windowId = glutCreateWindow("Test window");
 
-// 	init();
-// 	glutDisplayFunc(display);
-// 	glutReshapeFunc(reshape);
-// 	glutMouseFunc(mouseButton);
-// 	glutPassiveMotionFunc(mousePassiveMotion);
-// 	glutKeyboardFunc(processKeys);
-// 	glutMotionFunc(mouseMotion);
-// 	glutSpecialFunc(specialKey);
+	init();
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+	glutMouseFunc(mouseButton);
+	glutPassiveMotionFunc(mousePassiveMotion);
+	glutKeyboardFunc(processKeys);
+	glutMotionFunc(mouseMotion);
+	glutSpecialFunc(specialKey);
 
 
-// 	glutIdleFunc(systemEvolution);
-// 	glutTimerFunc(1000 / FPS, timer, 0);
+	glutIdleFunc(systemEvolution);
+	glutTimerFunc(1000 / FPS, timer, 0);
 
-// 	glutMainLoop();
+	glutMainLoop();
 	
-// 	return 0;
-// }
+	return 0;
+}

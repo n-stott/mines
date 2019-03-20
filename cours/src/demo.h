@@ -6,7 +6,7 @@ class Demo {
 public:
 	
 	Demo() {}
-	Demo(unsigned int nb) : nbStates(nb) {}
+	Demo(unsigned int nb, unsigned int nbs) : nbStates(nb), nbSubStates(nbs) {}
 
 	virtual ~Demo() {}
 
@@ -15,21 +15,36 @@ public:
 	virtual void lighting() = 0;
 
 	void next() {
-		if (state < nbStates-1) state++;
-		// std::cout << state << std::endl;
+		if (state < nbStates-1) {
+			state++;
+			subState = 0;
+		}
 		init();
 	}
 	void prev() {
-		if (state > 0) state--;
-		// std::cout << state << std::endl;
+		if (state > 0) {
+			state--;
+			subState = 0;
+		}
+		init();
+	}
+
+	void snext() {
+		if (subState < nbSubStates-1) subState++;
+		init();
+	}
+	void sprev() {
+		if (subState > 0) subState--;
 		init();
 	}
 
 	unsigned int state = 0;
+	unsigned int subState = 0;
 
 
 private:
 	unsigned int nbStates = 1;
+	unsigned int nbSubStates = 1;
 
 };
 
