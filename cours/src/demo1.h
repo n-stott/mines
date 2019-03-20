@@ -16,8 +16,8 @@ class Demo1 : public Demo {
 	
 public:
 	Demo1() : Demo(11,2), earth(0), clouds(0) {
-		earth = readBMP("earth.bmp");
-		clouds = readBMP("clouds.bmp");
+		earth = readBMP("earth2k.bmp");
+		clouds = readBMP("clouds2k.bmp");
 		loadTextureFromFile( "earth.bmp", 0 );
 		loadTextureFromFile( "clouds.bmp", 1 );
 	}
@@ -29,54 +29,50 @@ public:
 	float getR(int i, int j, int id) {
 		int W = 512; float H = 256.0;
 		int jj = j + H/2;
-		return (id ? int(earth[3*(jj*W+i)+0] & 0xff)/H : int(clouds[3*(jj*W+i)+0] & 0xff)/H);
+		return (!id ? int(earth[3*(jj*W+i)+0] & 0xff)/H : int(clouds[3*(jj*W+i)+0] & 0xff)/H);
 	}
 
 
 	float getG(int i, int j, int id) {
 		int W = 512; float H = 256.0;
 		int jj = j + H/2;
-		return (id ? int(earth[3*(jj*W+i)+1] & 0xff)/H : int(clouds[3*(jj*W+i)+1] & 0xff)/H);
+		return (!id ? int(earth[3*(jj*W+i)+1] & 0xff)/H : int(clouds[3*(jj*W+i)+1] & 0xff)/H);
 	}
 
 	float getB(int i, int j, int id) {
 		int W = 512; float H = 256.0;
 		int jj = j + H/2;
-		return (id ? int(earth[3*(jj*W+i)+2] & 0xff)/H : int(clouds[3*(jj*W+i)+2] & 0xff)/H);
+		return (!id ? int(earth[3*(jj*W+i)+2] & 0xff)/H : int(clouds[3*(jj*W+i)+2] & 0xff)/H);
 	}
 
 	GLUquadric* qobj = gluNewQuadric();
 
-	void sphere_bad(float t) {
-		int W = 512; float H = 256.0;
-		glPushMatrix();
-		glScalef(5.0,5.0,5.0);
-		glRotatef(-50,0,0,1);
-		glRotatef(-23,1,1,0);
+	void bad_earth(float W, float H, int id) {
 		for(int i = 0; i < W; ++i) {
 			for(int j = -H/2; j < H/2; ++j) {
 				glBegin(GL_QUADS);
-				glColor3f(getR(i,j,0), getG(i,j,0), getB(i,j,0));
+				glColor3f(getR(i,j,id), getG(i,j,id), getB(i,j,id));
 				glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
 					glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
 					i++;
-				glColor3f(getR(i,j,0), getG(i,j,0), getB(i,j,0));
+				glColor3f(getR(i,j,id), getG(i,j,id), getB(i,j,id));
 				glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
 					glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
 					j++;
-				glColor3f(getR(i,j,0), getG(i,j,0), getB(i,j,0));
+				glColor3f(getR(i,j,id), getG(i,j,id), getB(i,j,id));
 				glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
 					glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
 					i--;
-				glColor3f(getR(i,j,0), getG(i,j,0), getB(i,j,0));
+				glColor3f(getR(i,j,id), getG(i,j,id), getB(i,j,id));
 				glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
 					glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
 					j--;
 				glEnd();
 			}
 		}
-		glScalef(1.01,1.01,1.01);
-		glRotatef(0.003*t,0,0,1);
+	}
+
+	void bad_clouds(float W, float H, int id) {
 		for(int i = 0; i < W; ++i) {
 			for(int j = -H/2; j < H/2; ++j) {
 				glBegin(GL_QUADS);
@@ -99,15 +95,31 @@ public:
 				glEnd();
 			}
 		}
-		glColor3f(1,1,1);
-		if (subState > 0)
-		glutWireSphere(1,W,H);
-		glPushMatrix();
-		glTranslatef(0,0,-2);
-		glColor3f(1,1,1);
-		gluCylinder(qobj, 0.02, 0.02, 4, 10, 10);
-		glPopMatrix();
-		glPopMatrix();
+	}
+
+	void sphere(float W, float H) {
+		for(int i = 0; i < W; ++i) {
+	      for(int j = -H/2; j < H/2; ++j) {
+	        glBegin(GL_QUADS);
+	        glTexCoord2f(1.0*i/W, 0.5+j/H);
+	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+	          i++;
+	        glTexCoord2f(1.0*i/W, 0.5+j/H);
+	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+	          j++;
+	        glTexCoord2f(1.0*i/W, 0.5+j/H);
+	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+	          i--;
+	        glTexCoord2f(1.0*i/W, 0.5+j/H);
+	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
+	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
+	          j--;
+	        glEnd();
+	      }
+	    }
 	}
 
 	void loadTextureFromFile(char *filename, int tex)
@@ -135,81 +147,64 @@ public:
 
 }
 
+
+	void sphere_bad(float t) {
+		int W = 512; float H = 256.0;
+		glPushMatrix();
+			glScalef(5.0,5.0,5.0);
+			glRotatef(-50,0,0,1);
+			glRotatef(-23,1,1,0);
+			bad_earth(W, H, 0);
+			glScalef(1.01,1.01,1.01);
+			glRotatef(0.001*t,0,0,1);
+			bad_clouds(W,H,1);
+			glColor3f(1,1,1);
+			if (subState > 0)
+				glutWireSphere(1,W,H);
+			glPushMatrix();
+				glTranslatef(0,0,-2);
+				glColor3f(1,1,1);
+				gluCylinder(qobj, 0.02, 0.02, 4, 10, 10);
+			glPopMatrix();
+		glPopMatrix();
+	}
+
 	void sphere_good(float t) {
 		int W = 64; float H = 32.0;
-   glEnable(GL_TEXTURE_2D);
-     glBindTexture(GL_TEXTURE_2D, texture[0]);
+   		glEnable(GL_TEXTURE_2D);
+     	glBindTexture(GL_TEXTURE_2D, texture[0]);
 		glPushMatrix();
-		glScalef(5.0,5.0,5.0);
-		glRotatef(-50,0,0,1);
-		glRotatef(-23,1,1,0);
-		for(int i = 0; i < W; ++i) {
-	      for(int j = -H/2; j < H/2; ++j) {
-	      	glPointSize(5.0);
-	        glBegin(GL_QUADS);
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          i++;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          j++;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          i--;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          j--;
-	        glEnd();
-	      }
-	    }
-	    glBlendFunc(GL_SRC_ALPHA, GL_DST_COLOR);
-     glBindTexture(GL_TEXTURE_2D, texture[1]);
-		glScalef(1.01,1.01,1.01);
-		glRotatef(0.003*t,0,0,1);
-		for(int i = 0; i < W; ++i) {
-	      for(int j = -H/2; j < H/2; ++j) {
-	        glBegin(GL_QUADS);
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          i++;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          j++;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          i--;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          j--;
-	        glEnd();
-	      }
-	    }
-		if (subState > 0)
-		glutWireSphere(1,W,H);
-		// glPushMatrix();
-		// glTranslatef(0,0,-2);
-		// glColor3f(1,1,1);
-		// gluCylinder(qobj, 0.02, 0.02, 4, 10, 10);
-		// glPopMatrix();
+			glScalef(5.0,5.0,5.0);
+			glRotatef(-50,0,0,1);
+			glRotatef(-23,1,1,0);
+			sphere(W, H);
+			glColor3f(0.6,0.6,0.6);
+			if (subState > 0)
+				glutWireSphere(1,W,H);
+
+		    glBlendFunc(GL_SRC_ALPHA, GL_DST_COLOR);
+	     	glBindTexture(GL_TEXTURE_2D, texture[1]);
+	     	glPushMatrix();
+				glScalef(1.01,1.01,1.01);
+				glRotatef(0.001*t,0,0,1);
+				sphere(W, H);
+				glColor3f(1,1,1);
+				if (subState > 0)
+					glutWireSphere(1,W,H);
+			glPopMatrix();
 		glPopMatrix();
 	}
 
 	void init() override {
 		switch(state) {
+			case -1:
 			case 0:
 			case 1:
 			case 2:
 			case 3:
 			case 4:
 			case 5:
+				glLineWidth(2.0);
 				glDisable(GL_DEPTH_TEST);
 				glDisable(GL_LIGHTING);
 				glDisable(GL_LIGHT0);
@@ -218,6 +213,7 @@ public:
 				glShadeModel(GL_FLAT);	
 				break;
 			case 6:
+				glLineWidth(2.0);
 				glEnable(GL_LIGHT0);
 				glEnable(GL_LIGHTING);
 				glDisable(GL_COLOR_MATERIAL);
@@ -227,6 +223,7 @@ public:
 				break;
 			case 7:
 			case 8:
+				glLineWidth(2.0);
 				glEnable(GL_LIGHT0);
 				glEnable(GL_LIGHTING);
 				glDisable(GL_COLOR_MATERIAL);
@@ -246,6 +243,7 @@ public:
 				glEnable(GL_CULL_FACE);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				gluQuadricNormals(qobj, GLU_SMOOTH);
+				glLineWidth(3.0);
 				break;
 		}
 	}
@@ -265,6 +263,50 @@ public:
 		float r = 5;
 
 		switch(state) {
+			case -1:
+			switch (subState) {
+			case 0:
+				glBegin(GL_LINES);
+				glVertex3f(1,1,-2);
+				glVertex3f(1,-2,1);
+				glEnd();
+				break;
+			case 1:
+				glBegin(GL_LINE_LOOP);
+				glVertex3f(1,1,-2);
+				glVertex3f(1,-2,1);
+				glVertex3f(-2,1,1);
+				glEnd();
+				break;
+			case 2:
+				glBegin(GL_LINE_LOOP);
+				glVertex3f(1,1,1);
+				glVertex3f(1,1,-1);
+				glVertex3f(1,-1,-1);
+				glVertex3f(1,-1,1);
+				glVertex3f(-1,-1,1);
+				glVertex3f(-1,-1,-1);
+				glVertex3f(-1,1,-1);
+				glVertex3f(-1,1,1);
+				glEnd();
+				break;
+			case 3:
+				glBegin(GL_QUADS);
+				glVertex3f(1,-1,0);
+				glVertex3f(1,1,0);
+				glVertex3f(-1,1,0);
+				glVertex3f(-1,-1,0);
+				glEnd();
+				break;
+			case 4:
+				glBegin(GL_TRIANGLES);
+				glVertex3f(1,1,-2);
+				glVertex3f(1,-2,1);
+				glVertex3f(-2,1,1);
+				glEnd();
+				break;
+			}
+				break;
 			case 0:
 				glColor3f(1,1,1);
 				glutWireSphere(r,4,4);

@@ -15,30 +15,32 @@ public:
 	virtual void lighting() = 0;
 
 	void next() {
-		if (state < nbStates-1) {
+		// if (state < nbStates-1) {
 			state++;
 			subState = 0;
-		}
+		// }
 		init();
 	}
 	void prev() {
-		if (state > 0) {
+		// if (state > 0) {
 			state--;
 			subState = 0;
-		}
+		// }
 		init();
 	}
 
 	void snext() {
-		if (subState < nbSubStates-1) subState++;
+		// if (subState < nbSubStates-1)
+			subState++;
 		init();
 	}
 	void sprev() {
-		if (subState > 0) subState--;
+		// if (subState > 0)
+			subState--;
 		init();
 	}
 
-	unsigned int state = 0;
+	unsigned int state = -1;
 	unsigned int subState = 0;
 
 
