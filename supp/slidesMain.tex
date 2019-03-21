@@ -9,8 +9,8 @@
 \title{Introduction à OpenGL avec GLUT}
 %\author[Stott, Bouchiba]{Nikolas Stott \inst{1} \and Hassan Bouchiba \inst{2}}
 %\institute[INRIA, MINES]{\inst{1} INRIA Saclay \and \inst{2} MINES ParisTech}
-\author[Nikolas Stott]{Nikolas Stott}
-\institute[INRIA - CMAP]{INRIA Saclay - CMAP, \'Ecole Polytechnique, Universit\'e Paris-Saclay}
+\author[Nikolas Stott]{Nikolas Stott\inst{1} \and Hassan Bouchiba \inst{2}}
+\institute[LocalSolver]{\inst{1} LocalSolver \and \inst{2} Terra3d}
 \titlegraphic{\includegraphics[width=0.3\textwidth]{img/opengl}}
 \date{\today}
 
@@ -36,67 +36,25 @@
 
 
 \section{OpenGL et GLUT : présentation}
+\begin{frame}{Qui fait quoi ?}
 
-\subsection{OpenGL : quoi et comment ?}
-\begin{frame}{Qu'est ce qu'OpenGL ?}
-	\begin{block}{}
-		OpenGL (Open Graphics Library) est une bibliothèque graphique 2D/3D pour des applications 3D (interactives) :
-		\begin{itemize}
-			\item Interface logicielle bas niveau avec le hardware graphique
-			\item 150 commandes différentes pour spécifier objets et opérations
-		\end{itemize}
-	\end{block}
-	\pause
-	\begin{block}{}
-		OpenGL est indépendant du hardware et utilisé dans différents langages à travers différentes bibliothèques :
-		\begin{itemize}
-			\item GLU/GLUT en C/C++
-			\item Java OpenGL (JOGL) en Java
-			\item WEBGL en Javascript
-		\end{itemize}
-	\end{block}
-	\pause
-	\begin{block}{}
-		OpenGL ne gère pas le fenêtrage ou l'interface graphique.
-	\end{block}
-\end{frame}
+ \begin{block}{GLUT : haut niveau}
+ Interface de programmation :
+ \begin{itemize} 
+ \item Fenêtrage, 
+ \item Visualisation,
+ \item Input-output utilisateur
+ \end{itemize}
+ \end{block}
+ 
+ \begin{block}{OpenGL : bas niveau}
+ Interface avec le hardware graphique :
+ \begin{itemize}
+ \item Commandes de création de géométrie, de couleurs
+ \item Manipulation des objets
+ \end{itemize}
+ \end{block}
 
-
-\subsection{GLUT : quoi et comment ?}
-\begin{frame}[fragile]
-\frametitle{Qu'est ce que GLUT ?}
-	\begin{block}{}
-		GLUT (OpenGL Utility Toolkit) est une interface de programmation pour OpenGL qui gère le fenêtrage.\\
-		GLUT est simple, petit et utile pour apprendre à découvrir OpenGL.
-	\end{block}
-	\begin{block}{}
-		GLUT contient les fonctionnalités suivantes :
-		\begin{itemize}
-			\item gestion de l'affichage de fenêtres de rendu OpenGL
-			\item gestion du temps, d'événements et d'interaction utilisateur
-			\item création rapide d'objets primitifs (cube, tétraèdre, sphère, cône, etc) pleins ou maillage seul.
-		\end{itemize}
-	\end{block}
-	\begin{overlayarea}{\textwidth}{5cm}
-		\only<1>{
-			\begin{columns}[T]
-				\begin{column}{0.25\textwidth}
-					\includegraphics[width=\textwidth]{img/cube}
-				\end{column}
-				\begin{column}{0.25\textwidth}
-					\includegraphics[width=\textwidth]{img/teapot}
-				\end{column}
-			\end{columns}
-		}
-		\only<2>{
-			\begin{block}{Pour aller plus loin : solutions plus haut niveau}
-				\begin{itemize}
-					\item Open Inventor (commercial : C++, .NET, Java)
-					\item OpenSceneGraph (open source)
-				\end{itemize}
-			\end{block}
-		}
-	\end{overlayarea}	
 \end{frame}
 
 \begin{frame}{Qu'est ce qu'OpenGL sait faire ?}
@@ -106,7 +64,6 @@
 				\begin{itemize}
 					\item Création de géométries complexes
 					\item Habillage de la géométrie : couleur, texture, éclairage...
-					\item Visualisation des objets
 				\end{itemize}
 			\end{block}
 		\end{column}
@@ -158,12 +115,6 @@
 	\begin{itemize}
 		\item[$\Rightarrow$] On va assembler ces objets simples en objets plus complexes...
 	\end{itemize}
-\end{frame}
-
-\begin{frame}{Illustration}
-	\begin{figure}
-		\includegraphics[width=\textwidth]{img/sphere}
-	\end{figure}
 \end{frame}
 
 \begin{frame}{C'est tout ?}
@@ -677,7 +628,7 @@ Dans un terminal, dans le dossier de l'exercice/du TP, exécuter:
 		\verb!glScalef(x,y,z)! multiplie l'échelle par \verb!x!,\verb!y!,\verb!z! dans les directions $x$,$y$,$z$ respectivement.
 	\end{block}
 	\begin{block}{Rotation autour d'un axe}
-		\verb!glRotatef(t,x,y,z)! effectue une rotation de $t$ autour de l'axe $[x\;y\;z]^T$
+		\verb!glRotatef(t,x,y,z)! effectue une rotation de $t$ (en degrés) autour de l'axe $[x\;y\;z]^T$
 	\end{block}
 \end{frame}
 

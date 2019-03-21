@@ -1,0 +1,10 @@
+\select@language {french}
+\beamer@sectionintoc {1}{OpenGL et GLUT : pr\IeC {\'e}sentation}{3}{0}{1}
+\beamer@sectionintoc {2}{\'El\'ements de mod\IeC {\'e}lisation avec OpenGL}{7}{0}{2}
+\beamer@sectionintoc {3}{Les commandes OpenGL}{16}{0}{3}
+\beamer@subsectionintoc {3}{1}{Les commandes basiques}{17}{0}{3}
+\beamer@subsectionintoc {3}{2}{Commandes avanc\IeC {\'e}es}{27}{0}{3}
+\beamer@subsectionintoc {3}{3}{Transformations g\IeC {\'e}om\IeC {\'e}triques}{31}{0}{3}
+\beamer@subsectionintoc {3}{4}{Gestion de la cam\IeC {\'e}ra}{37}{0}{3}
+\beamer@sectionintoc {4}{Les fonctions principales GLUT}{38}{0}{4}
+\beamer@sectionintoc {5}{La librairie math\IeC {\'e}matique Eigen}{40}{0}{5}

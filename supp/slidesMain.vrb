@@ -1,0 +1,38 @@
+\frametitle{Manipulation de transformations (2)}
+\begin{exampleblock}{Beaucoup plus pratique}
+On reprend l'exemple précédent :
+\begin{columns}
+	\begin{column}{0.45\textwidth}
+		\begin{block}{}
+			\begin{figure}[h]
+			\centering
+			\begin{tabular}{c}
+			\begin{lstlisting}
+glRotatef(t,0,0,1);
+glTranslatef(4,3,1);
+...
+glTranslatef(-4,-3,-1);
+glRotatef(-t,0,0,1);
+			\end{lstlisting}
+			\end{tabular}
+			\end{figure}
+		\end{block}
+	\end{column}
+	\begin{column}{0.45\textwidth}
+		\begin{block}{}
+			\begin{figure}[h]
+			\centering
+			\begin{tabular}{c}
+			\begin{lstlisting}
+glPushMatrix();
+  glRotatef(t,0,0,1);
+  glTranslatef(4,3,1);
+  ...
+glPopMatrix();
+			\end{lstlisting}
+			\end{tabular}
+			\end{figure}
+		\end{block}
+	\end{column}
+\end{columns}
+\end{exampleblock}
