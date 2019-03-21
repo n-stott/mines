@@ -2,6 +2,7 @@
 #define FLOCK_H
 
 #include "Boid.h"
+#include <vector>
 
 class Flock {
 public:

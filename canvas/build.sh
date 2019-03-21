@@ -5,8 +5,12 @@ rm -r _build
 mkdir _build
 cd _build
 
-g++ -std=c++11 -Ofast \
+reset
+
+g++ -std=c++11 -Ofast -w \
  -I$THIRDPARTY_DIR/eigen \
--o app_boids \
+-o canvas \
 $SRC_DIR/*.cpp \
 -lGL -lGLU -lglut
+
+./canvas
