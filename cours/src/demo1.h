@@ -249,7 +249,7 @@ public:
 	}
 
 	void lighting() override {
-		float amb = -0.1;
+		float amb = 0.1;
 		float ambientLight[] = { amb, amb, amb, 1.0f };
 		float diffuseLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float position[] = { -20.0f, 20.0f, 0.0f, 0 };
