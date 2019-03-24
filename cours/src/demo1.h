@@ -1,21 +1,17 @@
 #ifndef DEMO1_H
 #define DEMO1_H
 
-#include "demo.h"
-#include "readbmp.h"
-#include "rgbImage.h"
-
-#define PI 3.14159
-// #define W 32
-// #define W 512
-// #define H 16.0
-// #define H 256.0
+#include "glscene.h"
 
 // Wireframe sphere
-class Demo1 : public Demo {
+class Demo1 :  public glScene {
 	
 public:
-	Demo1() : Demo(11,2), earth(0), clouds(0) {
+
+	static void display();
+	static void systemEvolution();
+
+	Demo1() : nbStates(11), nbSubStates(2), earth(0), clouds(0) {
 		earth = readBMP("earth2k.bmp");
 		clouds = readBMP("clouds2k.bmp");
 		loadTextureFromFile( "earth.bmp", 0 );
@@ -97,55 +93,9 @@ public:
 		}
 	}
 
-	void sphere(float W, float H) {
-		for(int i = 0; i < W; ++i) {
-	      for(int j = -H/2; j < H/2; ++j) {
-	        glBegin(GL_QUADS);
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          i++;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          j++;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          i--;
-	        glTexCoord2f(1.0*i/W, 0.5+j/H);
-	        glNormal3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H));
-	          glVertex3f( cos(i*PI/H)*cos(j*PI/H), sin(i*PI/H)*cos(j*PI/H), sin(j*PI/H) );
-	          j--;
-	        glEnd();
-	      }
-	    }
-	}
 
-	void loadTextureFromFile(char *filename, int tex)
-{   
-   glClearColor (0.0, 0.0, 0.0, 0.0);
-   glShadeModel(GL_FLAT);
-   glEnable(GL_DEPTH_TEST);
 
-   RgbImage theTexMap( filename );
 
-   // Pixel alignment: each row is word aligned (aligned to a 4 byte boundary)
-   //    Therefore, no need to call glPixelStore( GL_UNPACK_ALIGNMENT, ... );
-
-  
-    glGenTextures(1, &texture[tex]);               // Create The Texture
-    glBindTexture(GL_TEXTURE_2D, texture[tex]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-      // Typical Texture Generation Using Data From The Bitmap
-   
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData() );
-
-}
 
 
 	void sphere_bad(float t) {
@@ -195,7 +145,7 @@ public:
 		glPopMatrix();
 	}
 
-	void init() override {
+	void init()  {
 		switch(state) {
 			case -1:
 			case 0:
@@ -233,22 +183,13 @@ public:
 				break;
 			case 9:
 			case 10:
-				glEnable(GL_DEPTH_TEST);
-				glEnable(GL_BLEND);
-				glEnable(GL_LIGHT0);
-				glEnable(GL_LIGHTING);
-				glEnable(GL_COLOR_MATERIAL);
-				glEnable(GL_NORMALIZE);
-				glShadeModel(GL_SMOOTH);		
-				glEnable(GL_CULL_FACE);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				gluQuadricNormals(qobj, GLU_SMOOTH);
 				glLineWidth(3.0);
 				break;
 		}
 	}
 
-	void lighting() override {
+	void lighting()  {
 		float amb = 0.1;
 		float ambientLight[] = { amb, amb, amb, 1.0f };
 		float diffuseLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -258,7 +199,7 @@ public:
 		glLightfv(GL_LIGHT0, GL_POSITION, position);
 	}
 
-	void display(float t) override {
+	void display(float t)  {
 
 		float r = 5;
 
@@ -371,9 +312,60 @@ public:
 	std::vector<char> clouds;
 
 GLfloat xRotated, yRotated, zRotated;
-GLuint   texture[2];         // Storage For One Texture ( NEW )
+
+	void next() {
+		// if (state < nbStates-1) {
+			state++;
+			subState = 0;
+		// }
+		init();
+	}
+	void prev() {
+		// if (state > 0) {
+			state--;
+			subState = 0;
+		// }
+		init();
+	}
+
+	void snext() {
+		// if (subState < nbSubStates-1)
+			subState++;
+		init();
+	}
+	void sprev() {
+		// if (subState > 0)
+			subState--;
+		init();
+	}
+	unsigned int state = -1;
+	unsigned int subState = 0;
+
+
+private:
+	unsigned int nbStates = 1;
+	unsigned int nbSubStates = 1;
 
 };
+
+void Demo1::display() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+    
+	//Camera setup
+	camera.lookAt();
+    //Display functions
+    display(t);
+
+	glutSwapBuffers();
+}
+
+void Demo1::systemEvolution() {
+	updateTime();
+}
+
 
 
 #endif
